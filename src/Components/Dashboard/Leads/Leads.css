@@ -1,0 +1,62 @@
+
+
+.popup-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+    animation: fadeInOutBackground 0.5s forwards;
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  @keyframes fadeInOutBackground {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  .animate-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    animation: fadeInOutPopup 0.5s forwards;
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  @keyframes fadeInOutPopup {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  .popup-background.fade-out,
+  .animate-popup.fade-out {
+    animation: fadeOut 0.5s forwards;
+  }
+  
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  .leads_wrap{
+    overflow-wrap: anywhere;
+  }

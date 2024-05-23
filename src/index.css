@@ -1,0 +1,15 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital@0;1&family=PT+Sans&family=Rubik&family=Ubuntu:wght@300&display=swap');  
+/* @import url('https://fonts.googleapis.com/css2?family=Public+Sans&display=swap'); */
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root 
+{
+    --main-color:#F4F9F9;
+    --second-color: #dff4f6;
+    --three-color: #00A9FF;
+}
