@@ -15,7 +15,7 @@ function Dashboard() {
     if (!token) {
       navigate('/register');
     } else if (role === 'Admin') {
-      navigate('/admin');
+      navigate('/add-leads');
     }
   }, [navigate]);
   return (

@@ -23,7 +23,7 @@ function Admin() {
     <div>
         <DashNav role="Admin" />
         <Free />
-        <AdminPenal />
+        {/* <AdminPenal /> */}
     </div>
   )
 }

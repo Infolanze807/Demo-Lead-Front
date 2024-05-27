@@ -121,7 +121,7 @@ function LoginDemo({ role }) {
         localStorage.setItem("role", role);
   
         if (role === "Admin") {
-          navigate("/admin");
+          navigate("/add-leads");
         } else {
           navigate("/dashboard");
         }

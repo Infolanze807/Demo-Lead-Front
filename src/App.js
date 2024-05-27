@@ -25,6 +25,8 @@ import PrivacyPolicy from './Components/PrivacyPolicy';
 import Return from './Components/Return';
 import Remote from './Components/Dashboard/Remote';
 import { Helmet } from 'react-helmet';
+import AddLeads from './Components/Admin/AddLeads/AddLeads';
+import ShowLeads from './Components/Admin/AddLeads/ShowLeads';
 function App() {
   return (
     <div> 
@@ -43,8 +45,9 @@ function App() {
 function AppContent() {
 
   const location = useLocation();
-  const isDashboardPage = location.pathname === '/dashboard' || location.pathname === "/admin" || location.pathname === "/remote-job" ;
-  
+  const isDashboardPage = location.pathname === '/dashboard' || location.pathname === "/add-leads" || location.pathname === "/remote-job" || location.pathname === "/show-leads" ;
+  const isAdminRelatedPage = location.pathname === "/add-leads" || location.pathname === "/show-leads";
+
   return (
     <div>
       {!isDashboardPage && <Header />}
@@ -64,7 +67,9 @@ function AppContent() {
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/remote-job' element={<Remote />} />
         <Route path='/reset-error' element={<ResetError />} />
-        <Route path='/admin' element={<Admin />} />
+        {/* <Route path='/admin' element={<Admin />} /> */}
+        <Route path='/add-leads' element={<><Admin /><AddLeads /></>} />
+        <Route path='/show-leads' element={<><Admin /><ShowLeads /></>} />
         <Route path='/api/passwordReset/:userId/:token' element={<ResetPassword />} />
         <Route path="*" element={<Home />} />
         {/* <Route element={<React.Fragment> 

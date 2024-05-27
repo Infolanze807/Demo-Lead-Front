@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
@@ -14,8 +14,19 @@ function AddLeads() {
     budget: "",
     link: "",
   });
-
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
+
+    if (!token) {
+      navigate('/register');
+    } else if (role === 'Basic') {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
+
 
   const [file, setFile] = useState(null); // State for the file
 

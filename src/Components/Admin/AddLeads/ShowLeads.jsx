@@ -27,6 +27,17 @@ function ShowLeads() {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
+
+    if (!token) {
+      navigate('/register');
+    } else if (role === 'Basic') {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
+
   const [remoteFormData, setRemoteFormData] = useState({
     Title: "",
     Description: "",
@@ -297,13 +308,11 @@ function ShowLeads() {
   };
 
   return (
+    <>
     <div className="font-family bg-[--main-color]">
       <div className="px-4 lg:px-28 md:px-20 py-10">
         <div className="bg-white lg:p-10 md:p-10 p-2 rounded-lg shadow-lg">
           <div className="">
-            <div className="text-4xl font-semibold mb-6 mt-4 text-center">
-              All Leads Display
-            </div>
             <div className="flex justify-center mb-4">
               <button
                 className={`mr-4 font-semibold text-gray-600 hover:text-black ${
@@ -333,74 +342,74 @@ function ShowLeads() {
                       Delete Selected
                     </button>
                   </div>
-                  {freelanceLeads.map((lead, index) => (
-                    <div
-                      key={lead._id}
-                      className="lg:p-10 md:p-10 p-2 border rounded-md shadow-lg mb-5"
-                    >
-                      <div className="flex justify-between items-center">
+                  <div className="leads-container overflow-auto max-h-[calc(92vh-250px)]">
+                    {freelanceLeads.map((lead, index) => (
+                      <div
+                        key={lead._id}
+                        className="lg:p-10 md:p-10 p-2 border rounded-md shadow-lg mb-5"
+                      >
+                        {/* Lead details */}
+                        <div className="flex justify-between items-center">
+                          <p>
+                            <strong>Id:</strong>
+                            {index + 1}
+                          </p>
+                          <input
+                            type="checkbox"
+                            checked={selectedLeads.includes(lead._id)}
+                            onChange={(e) => handleCheckboxChange(e, lead._id)}
+                          />
+                        </div>
                         <p>
-                          <strong>Id:</strong>
-                          {index + 1}
+                          <strong>Title:</strong> {lead.title}
                         </p>
-                        <input
-                type="checkbox"
-                checked={selectedLeads.includes(lead._id)}
-                onChange={(e) => handleCheckboxChange(e, lead._id)}
-              />
+                        <p>
+                          <strong>Description:</strong>{" "}
+                          {Array.isArray(lead.description)
+                            ? lead.description.join(", ")
+                            : lead.description}
+                        </p>
+                        <p>
+                          <strong>Tags:</strong>{" "}
+                          {Array.isArray(lead.tags)
+                            ? lead.tags.join(", ")
+                            : lead.tags}
+                        </p>
+                        <p>
+                          <strong>Timestamp:</strong> {lead.timestamp}
+                        </p>
+                        <p>
+                          <strong>Level:</strong> {lead.level}
+                        </p>
+                        <p>
+                          <strong>Duration:</strong> {lead.duration}
+                        </p>
+                        <p>
+                          <strong>Budget:</strong> {lead.project_budget}
+                        </p>
+                        <p className="break-words">
+                          <strong>Link:</strong> {lead.link}
+                        </p>
+                        <p>
+                          <strong>Created At:</strong> {lead.formattedCreatedAt}
+                        </p>
+                        <div className="text-center pt-3">
+                          <button
+                            onClick={() => editPopup(lead._id, "freelance")}
+                            className="font-semibold text-gray-600 hover:text-black shadow-md cursor-pointer border p-2 px-5 rounded-md hover:bg-gray-300"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteLead(lead._id, "freelance")}
+                            className="font-semibold text-gray-600 hover:text-black shadow-md cursor-pointer border p-2 px-5 rounded-md hover:bg-gray-300"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </div>
-                      <p>
-                        <strong>Title:</strong> {lead.title}
-                      </p>
-                      <p>
-                        <strong>Description:</strong>{" "}
-                        {Array.isArray(lead.description)
-                          ? lead.description.join(", ")
-                          : lead.description}
-                      </p>
-                      <p>
-                        <strong>Tags:</strong>{" "}
-                        {Array.isArray(lead.tags)
-                          ? lead.tags.join(", ")
-                          : lead.tags}
-                      </p>
-                      <p>
-                        <strong>Timestamp:</strong> {lead.timestamp}
-                      </p>
-                      <p>
-                        <strong>Level:</strong> {lead.level}
-                      </p>
-                      <p>
-                        <strong>Duration:</strong> {lead.duration}
-                      </p>
-                      <p>
-                        <strong>Budget:</strong> {lead.project_budget}
-                      </p>
-                      <p className="break-words">
-                        <strong>Link:</strong> {lead.link}
-                      </p>
-                      <p>
-                        <strong>Created At:</strong>
-                        {lead.formattedCreatedAt}
-                      </p>
-                      <div className="text-center pt-3">
-                        <button
-                          onClick={() => editPopup(lead._id, "freelance")}
-                          className="font-semibold text-gray-600 hover:text-black shadow-md cursor-pointer border p-2 px-5 rounded-md hover:bg-gray-300"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() =>
-                            handleDeleteLead(lead._id, "freelance")
-                          }
-                          className="font-semibold text-gray-600 hover:text-black shadow-md cursor-pointer border p-2 px-5 rounded-md hover:bg-gray-300"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               )}
               {activeTab === "remote" && (
@@ -413,72 +422,74 @@ function ShowLeads() {
                       Delete Selected
                     </button>
                   </div>
-                  {remoteLeads.map((lead, index) => (
-                    <div
-                      key={lead._id}
-                      className="lg:p-10 md:p-10 p-2 border rounded-md shadow-lg mb-5"
-                    >
-                      <div className="flex justify-between items-center">
+                  <div className="leads-container overflow-auto max-h-[calc(100vh-250px)]">
+                    {remoteLeads.map((lead, index) => (
+                      <div
+                        key={lead._id}
+                        className="lg:p-10 md:p-10 p-2 border rounded-md shadow-lg mb-5"
+                      >
+                        {/* Remote lead details */}
+                        <div className="flex justify-between items-center">
+                          <p>
+                            <strong>Id:</strong>
+                            {index + 1}
+                          </p>
+                          <input
+                            type="checkbox"
+                            checked={selectedLeads.includes(lead._id)}
+                            onChange={(e) => handleCheckboxChange(e, lead._id)}
+                          />
+                        </div>
                         <p>
-                          <strong>Id:</strong>
-                          {index + 1}
+                          <strong>Title:</strong> {lead.Title}
                         </p>
-                        <input
-                          type="checkbox"
-                          checked={selectedLeads.includes(lead._id)}
-                          onChange={() => handleCheckboxChange(lead._id)}
-                        />
+                        <p>
+                          <strong>Description:</strong>{" "}
+                          {Array.isArray(lead.Description)
+                            ? lead.Description.join(", ")
+                            : lead.Description}
+                        </p>
+                        <p>
+                          <strong>Tags:</strong>{" "}
+                          {Array.isArray(lead.Tags)
+                            ? lead.Tags.join(", ")
+                            : lead.Tags}
+                        </p>
+                        <p>
+                          <strong>Timestamp:</strong> {lead.timestamp}
+                        </p>
+                        <p>
+                          <strong>Level:</strong> {lead.Level}
+                        </p>
+                        <p>
+                          <strong>Duration:</strong> {lead.Duration}
+                        </p>
+                        <p>
+                          <strong>Budget:</strong> {lead.Project_Budget}
+                        </p>
+                        <p className="break-words">
+                          <strong>Link:</strong> {lead.Link}
+                        </p>
+                        <p>
+                          <strong>Created At:</strong> {lead.formattedCreatedAt}
+                        </p>
+                        <div className="text-center pt-3">
+                          <button
+                            onClick={() => editPopup(lead._id, "remote")}
+                            className="font-semibold text-gray-600 hover:text-black shadow-md cursor-pointer border p-2 px-5 rounded-md hover:bg-gray-300"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteLead(lead._id, "remote")}
+                            className="font-semibold text-gray-600 hover:text-black shadow-md cursor-pointer border p-2 px-5 rounded-md hover:bg-gray-300"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </div>
-                      <p>
-                        <strong>Title:</strong> {lead.Title}
-                      </p>
-                      <p>
-                        <strong>Description:</strong>{" "}
-                        {Array.isArray(lead.Description)
-                          ? lead.Description.join(", ")
-                          : lead.Description}
-                      </p>
-                      <p>
-                        <strong>Tags:</strong>{" "}
-                        {Array.isArray(lead.Tags)
-                          ? lead.Tags.join(", ")
-                          : lead.Tags}
-                      </p>
-                      <p>
-                        <strong>Timestamp:</strong> {lead.timestamp}
-                      </p>
-                      <p>
-                        <strong>Level:</strong> {lead.Level}
-                      </p>
-                      <p>
-                        <strong>Duration:</strong> {lead.Duration}
-                      </p>
-                      <p>
-                        <strong>Budget:</strong> {lead.Project_Budget}
-                      </p>
-                      <p className="break-words">
-                        <strong>Link:</strong> {lead.Link}
-                      </p>
-                      <p>
-                        <strong>Created At:</strong>
-                        {lead.formattedCreatedAt}
-                      </p>
-                      <div className="text-center pt-3">
-                        <button
-                          onClick={() => editPopup(lead._id, "remote")}
-                          className="font-semibold text-gray-600 hover:text-black shadow-md cursor-pointer border p-2 px-5 rounded-md hover:bg-gray-300"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDeleteLead(lead._id, "remote")}
-                          className="font-semibold text-gray-600 hover:text-black shadow-md cursor-pointer border p-2 px-5 rounded-md hover:bg-gray-300"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -663,6 +674,8 @@ function ShowLeads() {
         </div>
       )}
     </div>
+  </>
+  
   );
 }
  

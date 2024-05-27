@@ -83,7 +83,7 @@
                 <li className="text-gray-400">
                 <NavLink
                   id="1"
-                  to='/admin'
+                  to='/add-leads'
                   activeclassname="active"
                   onClick={(e) => handleNavSelected(e)}
                   className={
@@ -92,7 +92,24 @@
                       : "mr-5  hover:text-black  cursor-pointer"
                   }
                 >
-                Admin Panel
+                Add Leads
+                </NavLink>
+                </li>
+                )}
+                {role === "Admin" && (
+                <li className="text-gray-400">
+                <NavLink
+                  id="4"
+                  to='/show-leads'
+                  activeclassname="active"
+                  onClick={(e) => handleNavSelected(e)}
+                  className={
+                    isActive === "4"
+                      ? "active mr-5  hover:text-black  cursor-pointer "
+                      : "mr-5  hover:text-black  cursor-pointer"
+                  }
+                >
+                Show Leads
                 </NavLink>
                 </li>
                 )}
